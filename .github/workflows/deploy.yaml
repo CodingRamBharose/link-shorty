@@ -1,0 +1,53 @@
+name: Deploy to Production
+
+# Run this ONLY when code is pushed to main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    name: Build and Deploy Locally
+    # This magic line tells GitHub to run this job ON YOUR LAPTOP
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: name: Deploy to Production
+
+# Run this ONLY when code is pushed to main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    name: Build and Deploy Locally
+    # This magic line tells GitHub to run this job ON YOUR LAPTOP
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Build New Docker Image
+        # This builds the image directly on your machine
+        run: docker build -t link-shorty:latest .
+
+      - name: Update Production
+        # We go into the terraform folder and tell it to force-replace the app container
+        working-directory: ./terraform
+        run: |
+          terraform init
+          terraform apply -replace="docker_container.app" -auto-approveBuild New Docker Image
+        # This builds the image directly on your machine
+        run: docker build -t link-shorty:latest .
+
+      - name: Update Production
+        # We go into the terraform folder and tell it to force-replace the app container
+        working-directory: ./terraform
+        run: |
+          terraform init
+          terraform apply -replace="docker_container.app" -auto-approve
