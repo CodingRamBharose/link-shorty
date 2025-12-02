@@ -43,7 +43,7 @@ export default function Home() {
       <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-8 rounded-2xl shadow-2xl max-w-lg w-full text-center">
         
         <h1 className="text-4xl font-extrabold mb-2 tracking-tight">
-          Link Shorty v2.0 🚀
+          Link Shorty 🚀
         </h1>
         <p className="text-white/80 mb-8">
           Make your long URLs short and manageable.
