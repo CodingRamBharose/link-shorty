@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+# Trigger this pipeline whenever you push code
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    # We need a Redis database for the tests to run
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+
+    steps:
+      # Step 1: Download your code from GitHub
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Install Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Step 4: Run the Build (Checks for code errors)
+      - name: Build Next.js App
+        run: npm run build
+
+      # Step 5: Build Docker Image (Simulates the final artifact)
+      - name: Build Docker Image
+        run: docker build -t link-shorty:v${{ github.run_number }} .
